@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaComment, FaStar } from "react-icons/fa";
 
 const FoodCard = () => {
   return (
@@ -16,21 +17,33 @@ const FoodCard = () => {
         <p className="text-sm font-medium">
           In times past, Finnish food was seasonal; in winter there were no
           easily available green vegetables, etc., as there are now – and the
-          primary purpose for food was to provide energy in the harsh... <Link to='/' className="text-orange-500 font-semibold">See More</Link>
+          primary purpose for food was to provide energy in the harsh...{" "}
+          <Link to="/" className="hover:text-orange-500 font-bold">
+            See More
+          </Link>
         </p>
-        <div className="flex justify-center items-center">
-        <p className="text-orange-500 font-bold text-lg mb-2">$19.99</p>
-        <div className="flex items-center mb-4">
-          <div className="text-orange-500">
-            <svg className="fill-current w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M10 12.585L3.828 16.73 5.44 10.416.88 6.27l6.716-.98L10 0l2.404 5.29 6.716.98-4.56 4.145 1.613 6.314L10 12.585z"/>
-            </svg>
+        <div className="grid grid-cols-3 justify-center items-center mb-4">
+          <p className="text-orange-500 font-bold text-lg">$19.99</p>
+          <div className="flex items-center">
+            <span className="text-orange-500">
+              <FaStar></FaStar>
+            </span>
+            <p className="ml-2">4.5 Stars</p>
           </div>
-          <div className=" ml-2">4.5 Stars</div>
+          <div className="flex items-center">
+            <span className="text-gray-600">
+              <FaComment></FaComment>
+            </span>
+            <p className="ml-2">21</p>
+          </div>
         </div>
-        </div>
-        
-        <Link to='/' className="bg-orange-500 hover:bg-orange-700 text-white font-semibold py-3 px-4 w-40 text-center mx-auto">View Details</Link>
+
+        <Link
+          to="/"
+          className="border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-3 px-10 text-center mx-auto"
+        >
+          View Details
+        </Link>
       </div>
     </div>
   );
