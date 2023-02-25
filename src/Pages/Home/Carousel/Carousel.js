@@ -9,7 +9,7 @@ const Carousel = () => {
           id="item1"
           className="carousel-item w-full relative sndHeader"
           style={{
-            "--img": `url('https://www.islamicity.org/food/catalog/241.1200.jpg?&v=03132021'), 
+            "--img": `url('https://www.islamicity.org/food/catalog/238.jpg?&v=03132021'), 
       linear-gradient(#e66465, #9198e5)`,
           }}
         >
@@ -67,7 +67,7 @@ const Carousel = () => {
           id="item3"
           className="carousel-item w-full relative sndHeader"
           style={{
-            "--img": `url('https://www.islamicity.org/food/catalog/238.jpg?&v=03132021'), 
+            "--img": `url('https://www.islamicity.org/food/catalog/241.1200.jpg?&v=03132021'), 
       linear-gradient(#e66465, #9198e5)`,
           }}
         >

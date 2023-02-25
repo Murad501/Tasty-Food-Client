@@ -1,45 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaComment, FaStar } from "react-icons/fa";
+import { PhotoView } from "react-photo-view";
 
-const FoodCard = () => {
+const FoodCard = ({food}) => {
+  const {picture, price, ratings, reviews, name, description, _id} = food
   return (
     <div className="card card-compact md:w-full border rounded-sm mx-auto p-1">
-      <figure>
+      <PhotoView src={picture}>
         <img
-          src="https://www.islamicity.org/food/catalog/241.1200.jpg?&v=03132021"
+          src={picture}
           className="h-72 w-full object-cover"
-          alt="Shoes"
+          alt="foodImage"
         />
-      </figure>
+      </PhotoView>
       <div className="card-body">
-        <h2 className="card-title">Finnish Salmon Soup</h2>
+        <h2 className="card-title">{name}</h2>
         <p className="text-sm font-medium">
-          In times past, Finnish food was seasonal; in winter there were no
-          easily available green vegetables, etc., as there are now – and the
-          primary purpose for food was to provide energy in the harsh...{" "}
-          <Link to="/" className="hover:text-orange-500 font-bold">
-            See More
-          </Link>
+          {description?.length > 250 ? description.slice(0, 250): description}
+          {description.length > 250 &&<Link to={`/foods/${_id}`} className="hover:text-orange-500 font-bold">
+            ...See More
+          </Link>}
         </p>
         <div className="grid grid-cols-3 justify-center items-center mb-4">
-          <p className="text-orange-500 font-bold text-lg">$19.99</p>
-          <div className="flex items-center">
-            <span className="text-orange-500">
+          <p className="font-semibold">${price}</p>
+          <div className="flex items-center font-semibold">
+            <span>
               <FaStar></FaStar>
             </span>
-            <p className="ml-2">4.5 Stars</p>
+            <p className="ml-2">{ratings} Stars</p>
           </div>
-          <div className="flex items-center">
-            <span className="text-gray-600">
+          <div className="flex items-center font-semibold">
+            <span>
               <FaComment></FaComment>
             </span>
-            <p className="ml-2">21</p>
+            <p className="ml-2">{reviews}</p>
           </div>
         </div>
 
         <Link
-          to="/"
+          to={`/foods/${_id}`}
           className="border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-3 px-10 text-center mx-auto"
         >
           View Details

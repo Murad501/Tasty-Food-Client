@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder="username@site.com"
+            placeholder="example@gmail.com"
             className="input input-bordered w-full pr-16 rounded-l-sm focus:outline-none"
           />
           <button className=" absolute top-0 right-0 bg-orange-500 h-full text-white font-semibold px-4 rounded-r-sm">

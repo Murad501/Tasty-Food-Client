@@ -1,5 +1,6 @@
 import React from 'react';
 import Carousel from './Carousel/Carousel';
+import FoodCategories from './FoodCategories/FoodCategories';
 import TopFoods from './TopFoods/TopFoods';
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <Carousel></Carousel>
             <TopFoods></TopFoods>
+            <FoodCategories></FoodCategories>
         </div>
     );
 };
