@@ -3,6 +3,7 @@ import Page404 from "../Components/Page404";
 import Main from "../Layout/Main";
 import AllFoods from "../Pages/AllFoods/AllFoods";
 import Blog from "../Pages/Blog/Blog";
+import CategoryFoods from "../Pages/CategoryFoods/CategoryFoods";
 import Home from "../Pages/Home/Home";
 
 export const router = createBrowserRouter([
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
             {
                 path: '/all-foods',
                 element: <AllFoods></AllFoods>
+            },
+            {
+                path: '/categories/:id',
+                element: <CategoryFoods></CategoryFoods>
             }
         ]
     }
