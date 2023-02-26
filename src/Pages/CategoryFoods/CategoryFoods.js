@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import FoodCard from "../../Components/FoodCard";
+import { useFoods } from "../../Context/FoodContext";
 
 const CategoryFoods = () => {
   const { id } = useParams();
-  const [categoryFoods, setCategoryFoods] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/category-food/${id}`)
-      .then((res) => res.json())
-      .then((data) => setCategoryFoods(data));
-  }, [id]);
+  const foods = useFoods();
+  const categoryFoods = foods.filter((food) => food.categoryId === id);
 
   return (
     <div className="mb-20">
