@@ -3,7 +3,7 @@ import { FaRegHeart } from "react-icons/fa";
 
 const ReviewCard = () => {
   return (
-    <div className="max-w-6xl border mx-auto px-10 py-6 rounded-sm hover:shadow-md mb-10">
+    <div className="border mx-auto px-10 py-6 rounded-sm hover:shadow-md mb-10">
       <div className=" flex justify-between mb-5">
         <h2 className="font-semibold text-lg">Apex Wipe</h2>
         <p className="text-md flex items-center justify-center gap-2">
@@ -19,6 +19,7 @@ const ReviewCard = () => {
         ab placeat perferendis sit amet eos eius dolore minima reprehenderit
         dolorum.
       </p>
+      <p>10 </p>
     </div>
   );
 };

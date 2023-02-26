@@ -6,6 +6,7 @@ import Blog from "../Pages/Blog/Blog";
 import CategoryFoods from "../Pages/CategoryFoods/CategoryFoods";
 import FoodDetails from "../Pages/FoodDetails/FoodDetails";
 import Home from "../Pages/Home/Home";
+import Signup from "../Pages/SignUp/SignUp";
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
             {
                 path: '/blog',
                 element: <Blog></Blog>
+            },
+            {
+                path: '/signup',
+                element: <Signup></Signup>
             },
             {
                 path: '/all-foods',

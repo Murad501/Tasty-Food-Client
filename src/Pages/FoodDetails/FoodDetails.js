@@ -35,7 +35,7 @@ const FoodDetails = () => {
         </button>
       </div>
       {showReview ? (
-        <div>
+        <div className="max-w-6xl mx-auto">
           <ReviewCard></ReviewCard>
           <ReviewCard></ReviewCard>
           <ReviewCard></ReviewCard>
@@ -46,7 +46,7 @@ const FoodDetails = () => {
           <ReviewCard></ReviewCard>
         </div>
       ) : (
-        <div className="border m-2 p-2">
+        <div className="border m-2 p-2 max-w-6xl mx-auto">
           <div className="col-span-1 md:col-span-2 lg:col-span-1 mb-5">
             <h2 className="font-semibold text-2xl mb-3">Ingredients</h2>
             {ingredients.map((text, idx) => (
