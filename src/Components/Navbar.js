@@ -2,11 +2,13 @@ import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useOnClickOutside } from "usehooks-ts";
 import logo from "../Assets/logo.png";
+import { dashboardProvider } from "../Context/DashboardContext";
 import { authContext } from "../Context/UserContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { logOut, user } = useContext(authContext);
+  const { setShowDashboard } = useContext(dashboardProvider);
 
   const handleLogOut = () => {
     logOut()
@@ -40,6 +42,17 @@ const Navbar = () => {
           Blog
         </Link>
       </li>
+      {user && (
+        <li>
+          <Link
+            className="font-semibold bg-transparent hover:text-orange-500"
+            to="/dashboard"
+          >
+            Dashboard
+          </Link>
+        </li>
+      )}
+
       {!user ? (
         <li>
           <Link
@@ -84,6 +97,15 @@ const Navbar = () => {
                 tabIndex={0}
                 className=" absolute top-16 right-0 menu menu-compact border dropdown-content bg-white w-52 block md:hidden"
               >
+                <li>
+                  <Link
+                    onClick={() => setShowDashboard(true)}
+                    className="font-semibold bg-transparent hover:text-orange-500"
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
                 {menus}
               </ul>
             )}

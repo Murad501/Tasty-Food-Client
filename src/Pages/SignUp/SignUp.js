@@ -2,7 +2,7 @@ import { updateProfile } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { FaFacebookF, FaGoogle, FaRegTimesCircle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/UserContext";
 
@@ -189,12 +189,12 @@ const Signup = () => {
                       alt="Selected Profile"
                       className="h-full mx-auto"
                     />
-                    <button
+                    <FaRegTimesCircle
                       className="absolute top-0 right-0  w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none"
                       onClick={handleRemoveImage}
                     >
-                      X
-                    </button>
+                     
+                    </FaRegTimesCircle>
                   </div>
                 ) : (
                   <div className="text-gray-400 text-sm">

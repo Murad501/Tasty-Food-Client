@@ -27,7 +27,7 @@ const TopFoods = () => {
           to="/all-foods"
           className="border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-3 px-4 w-40 text-center flex justify-center items-center gap-3"
         >
-          See All{" "}
+          All Foods{" "}
           <span>
             <FaArrowRight></FaArrowRight>
           </span>

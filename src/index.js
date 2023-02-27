@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import UserContext from "./Context/UserContext";
 import { PhotoProvider } from "react-photo-view";
 import FoodContext from "./Context/FoodContext";
+import DashboardContext from "./Context/DashboardContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,7 +21,9 @@ root.render(
         }
       >
         <FoodContext>
-          <App />
+          <DashboardContext>
+            <App />
+          </DashboardContext>
         </FoodContext>
       </PhotoProvider>
     </UserContext>
