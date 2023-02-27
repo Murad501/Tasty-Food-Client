@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Page404 from "../Components/Page404";
+import TestSignUp from "../Components/TestSignUp";
 import Main from "../Layout/Main";
 import AllFoods from "../Pages/AllFoods/AllFoods";
 import Blog from "../Pages/Blog/Blog";
 import CategoryFoods from "../Pages/CategoryFoods/CategoryFoods";
 import FoodDetails from "../Pages/FoodDetails/FoodDetails";
 import Home from "../Pages/Home/Home";
+import SignIn from "../Pages/SignIn/SignIn";
 import Signup from "../Pages/SignUp/SignUp";
 
 export const router = createBrowserRouter([
@@ -27,12 +29,20 @@ export const router = createBrowserRouter([
                 element: <Signup></Signup>
             },
             {
+                path: '/signin',
+                element: <SignIn></SignIn>
+            },
+            {
                 path: '/all-foods',
                 element: <AllFoods></AllFoods>
             },
             {
                 path: '/categories/:id',
                 element: <CategoryFoods></CategoryFoods>
+            },
+            {
+                path: '/test-signup',
+                element: <TestSignUp></TestSignUp>
             },
             {
                 path: '/foods/:id',
