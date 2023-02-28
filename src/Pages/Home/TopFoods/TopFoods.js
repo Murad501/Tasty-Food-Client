@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FoodCard from "../../../Components/FoodCard";
-import { useFoods } from "../../../Context/FoodContext";
+import { foodProvider } from "../../../Context/FoodContext";
 
 const TopFoods = () => {
-  const foods = useFoods();
+  const {foods} = useContext(foodProvider);
   const topFoods = foods.sort((a, b) => b.reviews - a.reviews).slice(0, 3);
 
   return (

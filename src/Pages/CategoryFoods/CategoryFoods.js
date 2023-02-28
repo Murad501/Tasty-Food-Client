@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import FoodCard from "../../Components/FoodCard";
-import { useFoods } from "../../Context/FoodContext";
+import { foodProvider } from "../../Context/FoodContext";
 
 const CategoryFoods = () => {
   const { id } = useParams();
-  const foods = useFoods();
+  const {foods} = useContext(foodProvider);
   const categoryFoods = foods.filter((food) => food.categoryId === id);
 
   return (

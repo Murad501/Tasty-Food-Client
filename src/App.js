@@ -16,7 +16,7 @@ function App() {
         <Toaster></Toaster>
       </div>
       {isLoading && (
-        <div className="h-full w-full flex fixed top-0 bg-black bg-opacity-80 justify-center items-center z-20">
+        <div className="h-full w-full flex fixed top-0 bg-white opacity-80 justify-center items-center z-20">
           <button
             type="button"
             className="bg-orange-500 flex items-center justify-center mx-auto my-5 text-white px-4 py-2 rounded-sm cursor-wait"

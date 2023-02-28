@@ -2,18 +2,31 @@ import React, { useContext, useState } from "react";
 import { PhotoView } from "react-photo-view";
 import { useParams } from "react-router-dom";
 import ReviewCard from "../../Components/ReviewCard";
-import { useFoods } from "../../Context/FoodContext";
+import { foodProvider } from "../../Context/FoodContext";
 import { loadingProvider } from "../../Context/LoadingContext";
 import AddReview from "./AddReview";
+import { useQuery } from "react-query";
 
 const FoodDetails = () => {
   const [showReview, setShowReview] = useState(false);
   const { setIsLoading } = useContext(loadingProvider);
   const { id } = useParams();
-  const foods = useFoods();
+  const { foods } = useContext(foodProvider);
+
+  const { data: reviews = [], refetch } = useQuery({
+    queryKey: ["food-reviews", id],
+    queryFn: () =>
+      fetch(`http://localhost:5000/food-reviews?id=${id}`).then((res) =>
+        res.json()
+      ),
+  });
+
   if (!foods.length) {
     return setIsLoading(true);
+  } else {
+    setIsLoading(false);
   }
+
   const food = foods.find((food) => food._id === id);
 
   const { picture, name, description, ingredients, preparation } = food;
@@ -23,7 +36,7 @@ const FoodDetails = () => {
       <div className="text-center max-w-5xl mx-auto mb-3">
         <h1 className="font-bold  text-3xl my-5">{name}</h1>
         <PhotoView src={picture}>
-          <img className="mx-auto" src={picture} alt="" />
+          <img className="mx-auto max-h-96" src={picture} alt="" />
         </PhotoView>
         <p className="my-5">{description}</p>
       </div>
@@ -47,9 +60,15 @@ const FoodDetails = () => {
       </div>
       {showReview ? (
         <div className="max-w-6xl mx-auto">
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
+          {reviews.length ? (
+            reviews.map((review) => (
+              <ReviewCard key={review._id} review={review}></ReviewCard>
+            ))
+          ) : (
+            <p className="text-center font-semibold text-3xl">
+              No review found for this food
+            </p>
+          )}
         </div>
       ) : (
         <div className="border m-2 p-2 max-w-6xl mx-auto">
@@ -71,7 +90,7 @@ const FoodDetails = () => {
           </div>
         </div>
       )}
-      {showReview ? <AddReview food={food}></AddReview> : ""}
+      {showReview ? <AddReview food={food} refetch={refetch}></AddReview> : ""}
     </div>
   );
 };

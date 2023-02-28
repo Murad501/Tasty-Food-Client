@@ -6,6 +6,7 @@ import AllFoods from "../Pages/AllFoods/AllFoods";
 import Blog from "../Pages/Blog/Blog";
 import CategoryFoods from "../Pages/CategoryFoods/CategoryFoods";
 import AddFood from "../Pages/Dashboard/AddFood/AddFood";
+import MyFoods from "../Pages/Dashboard/MyFoods/MyFoods";
 import MyReviews from "../Pages/Dashboard/MyReviews/MyReviews";
 import FoodDetails from "../Pages/FoodDetails/FoodDetails";
 import Home from "../Pages/Home/Home";
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/add-food",
         element: <AddFood></AddFood>,
+      },
+      {
+        path: "/dashboard/my-foods",
+        element: <MyFoods></MyFoods>,
       },
     ],
   },

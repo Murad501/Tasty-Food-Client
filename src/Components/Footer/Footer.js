@@ -15,7 +15,7 @@ const Footer = () => {
     </>
   );
   return (
-    <footer className="footer p-10 border-t">
+    <footer className="footer p-1 md:p-10 border-t">
       <Link to="/" className="flex flex-col justify-center items-center">
         <img className="w-20" src={logo} alt="" />
 
@@ -27,13 +27,13 @@ const Footer = () => {
       </div>
       <div className="form-control w-80">
         <span className="footer-title">Newsletter</span>
-        <div className="relative">
+        <div className="md:flex gap-5 md:gap-0 h-12 w-11/12">
           <input
             type="text"
             placeholder="example@gmail.com"
-            className="input input-bordered w-full pr-16 rounded-l-sm focus:outline-none"
+            className="input input-bordered w-full rounded-l-sm rounded-r-none mb-1 md:mb-0 focus:outline-none"
           />
-          <button className=" absolute top-0 right-0 bg-orange-500 h-full text-white font-semibold px-4 rounded-r-sm">
+          <button className="bg-orange-500 h-full text-white font-semibold px-4 rounded-r-sm">
             Subscribe
           </button>
         </div>

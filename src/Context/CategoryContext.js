@@ -1,30 +1,27 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { loadingProvider } from "./LoadingContext";
+import React, { createContext } from "react";
+import { useQuery } from "react-query";
 
 export const categoryProvider = createContext();
 const CategoryContext = ({ children }) => {
-  const [categories, setCategories] = useState([]);
-  const { setIsLoading } = useContext(loadingProvider);
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:5000/categories")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-        setIsLoading(false);
-      });
-  }, [setIsLoading]);
+  const {
+    data: categories = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () =>
+      fetch("http://localhost:5000/categories").then((res) => res.json()),
+  });
+  const value = {
+    categories,
+    isLoading,
+    refetch,
+  };
   return (
-    <categoryProvider.Provider value={categories}>
+    <categoryProvider.Provider value={value}>
       {children}
     </categoryProvider.Provider>
   );
-};
-
-export const useCategories = () => {
-  const categories = useContext(categoryProvider);
-  return categories;
 };
 
 export default CategoryContext;

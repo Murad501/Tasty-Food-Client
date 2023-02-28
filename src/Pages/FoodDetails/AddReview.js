@@ -3,10 +3,11 @@ import { toast } from "react-hot-toast";
 import AnimationButton from "../../Components/AnimationButton";
 import { authContext } from "../../Context/UserContext";
 
-const AddReview = ({ food }) => {
+const AddReview = ({ food, refetch }) => {
   const { user } = useContext(authContext);
   const [isPosting, setIsPosting] = useState(false);
   const [reviewText, setReviewText] = useState("");
+
 
   const handleSubmitReview = (event) => {
     event.preventDefault();
@@ -15,9 +16,12 @@ const AddReview = ({ food }) => {
       foodId: food._id,
       time: new Date(),
       foodName: food.name,
+      foodImage: food.picture,
       userName: user.displayName,
       userEmail: user.email,
+      userPhoto: user.photoURL
     };
+    console.log(review)
     fetch("http://localhost:5000/reviews", {
       method: "POST",
       headers: {
@@ -27,9 +31,12 @@ const AddReview = ({ food }) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        if (result.insertedId) setIsPosting(false);
-        toast.success("Review added successfully");
-        event.target.reset();
+        if (result.insertedId) {
+          setIsPosting(false);
+          toast.success("Review added successfully");
+          event.target.reset();
+          refetch()
+        }
       });
   };
   return (

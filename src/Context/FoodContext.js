@@ -1,28 +1,28 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { loadingProvider } from "./LoadingContext";
+import React, { createContext } from "react";
+import { useQuery } from "react-query";
 
-const foodProvider = createContext();
+export const foodProvider = createContext();
 const FoodContext = ({ children }) => {
-  const [foods, setFoods] = useState([]);
-  const { setIsLoading } = useContext(loadingProvider);
+  const {
+    data: foods = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["foods"],
+    queryFn: () =>
+      fetch("http://localhost:5000/foods").then((res) => res.json()),
+  });
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:5000/foods")
-      .then((res) => res.json())
-      .then((data) => {
-        setFoods(data);
-        setIsLoading(false);
-      });
-  }, [setIsLoading]);
+  const value = {
+    foods,
+    refetch,
+    isLoading,
+  };
+
   return (
-    <foodProvider.Provider value={foods}>{children}</foodProvider.Provider>
+    <foodProvider.Provider value={value}>{children}</foodProvider.Provider>
   );
 };
 
-export const useFoods = () => {
-  const foods = useContext(foodProvider);
-  return foods;
-};
 
 export default FoodContext;

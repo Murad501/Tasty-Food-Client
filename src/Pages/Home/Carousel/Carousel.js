@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { useFoods } from "../../../Context/FoodContext";
+import { foodProvider } from "../../../Context/FoodContext";
 import "./Carousel.css";
 
 const Carousel = () => {
-  const foods = useFoods();
+  const {foods} = useContext(foodProvider);
   const [active, setActive] = useState(0);
   return (
     <div className="h-[600px] carousel-section relative">

@@ -2,8 +2,9 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaCheck, FaRegTimesCircle } from "react-icons/fa";
-import { useCategories } from "../../../Context/CategoryContext";
+import { categoryProvider } from "../../../Context/CategoryContext";
 import { loadingProvider } from "../../../Context/LoadingContext";
+import { authContext } from "../../../Context/UserContext";
 import ArrayMap from "./ArrayMap";
 
 const AddFood = () => {
@@ -13,7 +14,8 @@ const AddFood = () => {
   const [preparationArray, setPreparationArray] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const {setIsLoading} = useContext(loadingProvider)
-  const categories = useCategories()
+  const {categories} = useContext(categoryProvider)
+  const {user} = useContext(authContext)
   const imgbbApi = process.env.REACT_APP_imgbbApi;
   const {
     register,
@@ -35,6 +37,7 @@ const AddFood = () => {
         if (result.data.url) {
           const imgUrl = result.data.url;
           const food = {
+            postedBy: user.email,
             categoryId: data.category,
             picture: imgUrl,
             price: data.price,
