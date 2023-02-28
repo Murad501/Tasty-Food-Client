@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
 const ArrayMap = ({ item }) => {
-  console.log(item);
   const { arrayItem, setArrayItem, name } = item;
   const [showAll, setShowAll] = useState(false);
 
@@ -10,7 +9,6 @@ const ArrayMap = ({ item }) => {
     const index = arrayItem.indexOf(value);
     if (index > -1) {
       arrayItem.splice(index, 1);
-      console.log(arrayItem);
     }
     setArrayItem(arrayItem);
   };

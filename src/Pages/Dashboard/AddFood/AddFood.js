@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaCheck, FaRegTimesCircle } from "react-icons/fa";
+import { useCategories } from "../../../Context/CategoryContext";
+import { loadingProvider } from "../../../Context/LoadingContext";
 import ArrayMap from "./ArrayMap";
 
 const AddFood = () => {
@@ -10,6 +12,8 @@ const AddFood = () => {
   const [preparationValue, setPreparationValue] = useState("");
   const [preparationArray, setPreparationArray] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const {setIsLoading} = useContext(loadingProvider)
+  const categories = useCategories()
   const imgbbApi = process.env.REACT_APP_imgbbApi;
   const {
     register,
@@ -18,7 +22,7 @@ const AddFood = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data, ingredientArray, preparationArray);
+    setIsLoading(true)
     const image = data.profileImage[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -30,8 +34,31 @@ const AddFood = () => {
       .then((result) => {
         if (result.data.url) {
           const imgUrl = result.data.url;
-          console.log(imgUrl);
-          toast.success('image upload successfully')
+          const food = {
+            categoryId: data.category,
+            picture: imgUrl,
+            price: data.price,
+            rating: 0,
+            reviews: 0,
+            name: data.name,
+            description: data.description,
+            registered: new Date(),
+            ingredients: ingredientArray,
+            preparation: preparationArray
+          }
+          fetch('http://localhost:5000/foods', {
+            method: 'POST', 
+            headers: {
+              'content-type':'application/json'
+            },
+            body: JSON.stringify(food)
+          })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+          })
+          setIsLoading(false)
+          toast.success("image upload successfully");
         }
       });
   };
@@ -66,11 +93,10 @@ const AddFood = () => {
   return (
     <div>
       <h1 className="text-orange-500 font-bold text-4xl mb-10 text-center">
-        Add Food
+        Add a Food Recipe
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
-          <div className="mb-4 md:col-span-4">
+      <div className="mb-4 md:col-span-4">
             <label
               htmlFor="name"
               className="block text-gray-700 font-medium mb-2"
@@ -81,14 +107,37 @@ const AddFood = () => {
               type="text"
               id="name"
               {...register("name", { required: true })}
-              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-blue-500`}
+              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
               required
             />
             {errors.name && (
               <span className="text-red-500">Name is required</span>
             )}
           </div>
-          <div className="mb-4 md:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Category
+            </label>
+            <select
+              type="text"
+              id="category"
+              {...register("category", { required: true })}
+              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
+              required
+            >
+              {
+                categories.map((category, idx) => <option value={category._id} key={category._id}>{category.name}</option>)
+              }
+            </select>
+            {errors.category && (
+              <span className="text-red-500">Category is required</span>
+            )}
+          </div>
+          <div className="mb-4">
             <label
               htmlFor="price"
               className="block text-gray-700 font-medium mb-2"
@@ -99,13 +148,30 @@ const AddFood = () => {
               type="number"
               id="price"
               {...register("price", { required: true })}
-              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-blue-500`}
+              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
               required
             />
             {errors.price && (
               <span className="text-red-500">Price is required</span>
             )}
           </div>
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="price"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            {...register("description", { required: true })}
+            className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
+            required
+          />
+          {errors.description && (
+            <span className="text-red-500">Description is required</span>
+          )}
         </div>
         {/* Ingredients */}
         <div className="mb-4">
@@ -119,7 +185,7 @@ const AddFood = () => {
             <textarea
               value={ingredientValue}
               onChange={(e) => setIngredientValue(e.target.value)}
-              className="textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-blue-500"
+              className="textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500"
             />
             {ingredientValue && (
               <button
@@ -130,7 +196,13 @@ const AddFood = () => {
               </button>
             )}
           </div>
-          <ArrayMap item={{arrayItem: ingredientArray, setArrayItem: setIngredientArray, name: 'Ingredient'}}></ArrayMap>
+          <ArrayMap
+            item={{
+              arrayItem: ingredientArray,
+              setArrayItem: setIngredientArray,
+              name: "Ingredient",
+            }}
+          ></ArrayMap>
         </div>
         {/* Preparation */}
         <div className="mb-4">
@@ -146,7 +218,7 @@ const AddFood = () => {
               onChange={(e) => {
                 setPreparationValue(e.target.value);
               }}
-              className="textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-blue-500"
+              className="textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500"
             />
             {preparationValue && (
               <button
@@ -157,24 +229,13 @@ const AddFood = () => {
               </button>
             )}
           </div>
-          <ArrayMap item={{arrayItem: preparationArray, setArrayItem: setPreparationArray, name: 'Preparation'}}></ArrayMap>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="price"
-            className="block text-gray-700 font-medium mb-2"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            {...register("description", { required: true })}
-            className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full h-36  rounded-sm focus:outline-none focus:border-blue-500`}
-            required
-          />
-          {errors.description && (
-            <span className="text-red-500">Description is required</span>
-          )}
+          <ArrayMap
+            item={{
+              arrayItem: preparationArray,
+              setArrayItem: setPreparationArray,
+              name: "Preparation",
+            }}
+          ></ArrayMap>
         </div>
         <div className="mb-4">
           <label className="block font-medium mb-2">Food Image</label>
@@ -206,12 +267,12 @@ const AddFood = () => {
             </div>
           </div>
         </div>
-        <div className="mb-6 flex justify-start items-center">
+        <div className="mb-6 flex justify-end items-center">
           <button
             type="submit"
             className="bg-orange-500 text-white px-4 py-2 rounded-sm mt-5"
           >
-            Signup
+            Add Food
           </button>
         </div>
       </form>

@@ -16,7 +16,7 @@ const FoodDetails = () => {
       <div className="text-center max-w-5xl mx-auto mb-3">
         <h1 className="font-bold  text-3xl my-5">{name}</h1>
         <PhotoView src={picture}>
-          <img src={picture} alt="" />
+          <img className="mx-auto" src={picture} alt="" />
         </PhotoView>
         <p className="my-5">{description}</p>
       </div>

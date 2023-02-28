@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaFacebookF, FaGoogle, FaRegTimesCircle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { loadingProvider } from "../../Context/LoadingContext";
 import { authContext } from "../../Context/UserContext";
 
 const Signup = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { googleLogin, signUp } = useContext(authContext);
+  const { setIsLoading } = useContext(loadingProvider);
   const imgbbApi = process.env.REACT_APP_imgbbApi;
 
   const {
@@ -32,7 +34,7 @@ const Signup = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    setIsLoading(true);
     const image = data.profileImage[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -46,18 +48,25 @@ const Signup = () => {
           const imgUrl = result.data.url;
           signUp(data.email, data.password)
             .then((result) => {
-              toast.success("user sign up successfully");
               const currentUser = result.user;
               updateProfile(currentUser, {
                 displayName: data.name,
                 photoURL: imgUrl,
               })
                 .then(() => {
+                  setIsLoading(false);
                   navigate(from, { replace: true });
+                  toast.success("user sign up successfully");
                 })
-                .catch((err) => console.error(err));
+                .catch((err) => {
+                  setIsLoading(false);
+                  console.error(err);
+                });
             })
-            .catch((err) => console.error(err));
+            .catch((err) => {
+              setIsLoading(false);
+              console.error(err);
+            });
         }
       });
   };
@@ -192,9 +201,7 @@ const Signup = () => {
                     <FaRegTimesCircle
                       className="absolute top-0 right-0  w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none"
                       onClick={handleRemoveImage}
-                    >
-                     
-                    </FaRegTimesCircle>
+                    ></FaRegTimesCircle>
                   </div>
                 ) : (
                   <div className="text-gray-400 text-sm">

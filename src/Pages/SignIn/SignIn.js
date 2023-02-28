@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { loadingProvider } from "../../Context/LoadingContext";
 import { authContext } from "../../Context/UserContext";
 
 const SignIn = () => {
   const { googleLogin, signIn } = useContext(authContext);
+  const { setIsLoading } = useContext(loadingProvider);
   let navigate = useNavigate();
   let location = useLocation();
 
@@ -22,14 +24,19 @@ const SignIn = () => {
 
   const handleSignIn = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const email = e.target.email.value;
     const password = e.target.password.value;
     signIn(email, password)
       .then((result) => {
+        setIsLoading(false);
         toast.success("user sign up successfully");
         navigate(from, { replace: true });
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setIsLoading(false);
+        console.error(err);
+      });
   };
 
   return (
@@ -91,7 +98,12 @@ const SignIn = () => {
           </button>
         </div>
       </form>
-      <p>New here? <Link className="text-orange-500" to='/signup'>Sign up</Link></p>
+      <p>
+        New here?{" "}
+        <Link className="text-orange-500" to="/signup">
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 };

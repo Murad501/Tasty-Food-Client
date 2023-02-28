@@ -45,6 +45,7 @@ const Navbar = () => {
       {user && (
         <li>
           <Link
+            onClick={() => setShowDashboard(true)}
             className="font-semibold bg-transparent hover:text-orange-500"
             to="/dashboard"
           >
@@ -56,7 +57,8 @@ const Navbar = () => {
       {!user ? (
         <li>
           <Link
-            className="font-semibold bg-transparent hover:text-orange-500"
+            style={{ borderRadius: "0px" }}
+            className="font-semibold text-white bg-orange-500 px-3"
             to="/signin"
           >
             Sign In
@@ -87,7 +89,10 @@ const Navbar = () => {
             onClick={() => handleClick()}
             className="dropdown dropdown-end"
           >
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <label
+              tabIndex={0}
+              className="btn btn-ghost btn-circle avatar md:hidden"
+            >
               <div className="w-10 rounded-full">
                 <img src={user?.photoURL} alt="" />
               </div>
@@ -97,15 +102,6 @@ const Navbar = () => {
                 tabIndex={0}
                 className=" absolute top-16 right-0 menu menu-compact border dropdown-content bg-white w-52 block md:hidden"
               >
-                <li>
-                  <Link
-                    onClick={() => setShowDashboard(true)}
-                    className="font-semibold bg-transparent hover:text-orange-500"
-                    to="/dashboard"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
                 {menus}
               </ul>
             )}

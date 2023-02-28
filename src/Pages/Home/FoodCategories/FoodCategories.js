@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CategoryCard from "../../../Components/CategoryCard";
+import { useCategories } from "../../../Context/CategoryContext";
 
 const FoodCategories = () => {
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/categories")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/categories")
+  //     .then((res) => res.json())
+  //     .then((data) => setCategories(data));
+  // }, []);
+  const categories = useCategories();
 
   return (
     <div className="my-20">
