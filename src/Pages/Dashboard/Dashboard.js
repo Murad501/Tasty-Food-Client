@@ -15,6 +15,14 @@ const Dashboard = () => {
       <span className="text-center">
         <Link
           className="font-medium bg-transparent hover:text-orange-500"
+          to="/dashboard/my-foods"
+        >
+          My Foods
+        </Link>
+      </span>
+      <span className="text-center">
+        <Link
+          className="font-medium bg-transparent hover:text-orange-500"
           to="/dashboard/add-food"
         >
           Add Food

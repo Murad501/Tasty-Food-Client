@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PhotoView } from "react-photo-view";
 import { useParams } from "react-router-dom";
 import ReviewCard from "../../Components/ReviewCard";
 import { useFoods } from "../../Context/FoodContext";
+import { loadingProvider } from "../../Context/LoadingContext";
+import AddReview from "./AddReview";
 
 const FoodDetails = () => {
   const [showReview, setShowReview] = useState(false);
+  const { setIsLoading } = useContext(loadingProvider);
   const { id } = useParams();
   const foods = useFoods();
+  if (!foods.length) {
+    return setIsLoading(true);
+  }
   const food = foods.find((food) => food._id === id);
+
   const { picture, name, description, ingredients, preparation } = food;
-  console.log(food);
+
   return (
     <div className="mb-20">
       <div className="text-center max-w-5xl mx-auto mb-3">
@@ -23,24 +30,23 @@ const FoodDetails = () => {
       <div className="my-10 flex justify-center items-center gap-10">
         <button
           onClick={() => setShowReview(false)}
-          className={`border-b-2 px-5 py-3 font-semibold text-lg ${!showReview && 'text-orange-500 border-orange-500'}`}
+          className={`border-b-2 px-5 py-3 font-semibold text-lg ${
+            !showReview && "text-orange-500 border-orange-500"
+          }`}
         >
           Recipe
         </button>
         <button
           onClick={() => setShowReview(true)}
-          className={`border-b-2 px-5 py-3 font-semibold text-lg ${showReview && 'text-orange-500 border-orange-500'}`}
+          className={`border-b-2 px-5 py-3 font-semibold text-lg ${
+            showReview && "text-orange-500 border-orange-500"
+          }`}
         >
           Reviews
         </button>
       </div>
       {showReview ? (
         <div className="max-w-6xl mx-auto">
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
           <ReviewCard></ReviewCard>
           <ReviewCard></ReviewCard>
           <ReviewCard></ReviewCard>
@@ -65,6 +71,7 @@ const FoodDetails = () => {
           </div>
         </div>
       )}
+      {showReview ? <AddReview food={food}></AddReview> : ""}
     </div>
   );
 };
