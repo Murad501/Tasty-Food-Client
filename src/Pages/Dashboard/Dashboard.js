@@ -30,7 +30,7 @@ const Dashboard = () => {
       </span>
     </div>
   );
-  return <div>{menus}</div>;
+  return <div >{menus}</div>;
 };
 
 export default Dashboard;

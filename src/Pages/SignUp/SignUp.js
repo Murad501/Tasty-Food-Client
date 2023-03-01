@@ -6,12 +6,23 @@ import { FaFacebookF, FaGoogle, FaRegTimesCircle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loadingProvider } from "../../Context/LoadingContext";
 import { authContext } from "../../Context/UserContext";
+import { useToken } from "../../Shared/getToken";
 
 const Signup = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { googleLogin, signUp } = useContext(authContext);
   const { setIsLoading } = useContext(loadingProvider);
+  const [userEmail, setUserEmail] = useState("");
+  const [token] = useToken(userEmail);
   const imgbbApi = process.env.REACT_APP_imgbbApi;
+  let navigate = useNavigate();
+  let location = useLocation();
+
+  let from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const {
     register,
@@ -19,16 +30,12 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  let navigate = useNavigate();
-  let location = useLocation();
-
-  let from = location.state?.from?.pathname || "/";
-
   const handleGoogleLogin = () => {
     googleLogin()
-      .then(() => {
+      .then((result) => {
+        const email = result.user.email;
+        setUserEmail(email);
         toast.success("user sign up successfully");
-        navigate(from, { replace: true });
       })
       .catch((err) => console.error(err));
   };
@@ -54,8 +61,8 @@ const Signup = () => {
                 photoURL: imgUrl,
               })
                 .then(() => {
+                  setUserEmail(currentUser.email);
                   setIsLoading(false);
-                  navigate(from, { replace: true });
                   toast.success("user sign up successfully");
                 })
                 .catch((err) => {

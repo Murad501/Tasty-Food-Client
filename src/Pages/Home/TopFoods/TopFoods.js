@@ -11,7 +11,7 @@ const TopFoods = () => {
   return (
     <div className="my-20">
       <div className="text-center mb-10">
-        <h1 className="text-orange-500 font-bold text-4xl mb-5">Top Foods</h1>
+        <h1 className="text-orange-500 font-bold text-2xl md:text-4xl mb-5">Top Foods</h1>
         <p className="text-md font-medium text-gray-600">
           Good food nourishes our bodies with essential nutrients and energy{" "}
           <br /> needed for optimal health and wellness.

@@ -6,17 +6,18 @@ const CategoryContext = ({ children }) => {
   const {
     data: categories = [],
     isLoading,
-    refetch,
+    refetch
   } = useQuery({
     queryKey: ["categories"],
     queryFn: () =>
-      fetch("http://localhost:5000/categories").then((res) => res.json()),
+      fetch("https://tasty-food-server.vercel.app/categories").then((res) => res.json()),
   });
   const value = {
     categories,
     isLoading,
     refetch,
   };
+
   return (
     <categoryProvider.Provider value={value}>
       {children}

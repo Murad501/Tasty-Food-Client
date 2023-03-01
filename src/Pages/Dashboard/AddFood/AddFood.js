@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaCheck, FaRegTimesCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { categoryProvider } from "../../../Context/CategoryContext";
+import { foodProvider } from "../../../Context/FoodContext";
 import { loadingProvider } from "../../../Context/LoadingContext";
 import { authContext } from "../../../Context/UserContext";
 import ArrayMap from "./ArrayMap";
@@ -17,6 +19,8 @@ const AddFood = () => {
   const {categories} = useContext(categoryProvider)
   const {user} = useContext(authContext)
   const imgbbApi = process.env.REACT_APP_imgbbApi;
+  const { refetch } = useContext(foodProvider);
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -49,7 +53,7 @@ const AddFood = () => {
             ingredients: ingredientArray,
             preparation: preparationArray
           }
-          fetch('http://localhost:5000/foods', {
+          fetch('https://tasty-food-server.vercel.app/foods', {
             method: 'POST', 
             headers: {
               'content-type':'application/json'
@@ -61,6 +65,8 @@ const AddFood = () => {
             console.log(data)
           })
           setIsLoading(false)
+          refetch()
+          navigate('/dashboard/my-foods')
           toast.success("image upload successfully");
         }
       });
@@ -95,7 +101,7 @@ const AddFood = () => {
 
   return (
     <div>
-      <h1 className="text-orange-500 font-bold text-4xl mb-10 text-center">
+      <h1 className="text-orange-500 font-bold text-2xl md:text-4xl my-10 text-center">
         Add a Food Recipe
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto">

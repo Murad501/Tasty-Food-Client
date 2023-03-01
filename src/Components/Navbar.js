@@ -11,6 +11,7 @@ const Navbar = () => {
   const { setShowDashboard } = useContext(dashboardProvider);
 
   const handleLogOut = () => {
+    localStorage.removeItem("access-token");
     logOut()
       .then(() => {})
       .catch(() => {});
@@ -28,7 +29,7 @@ const Navbar = () => {
     <>
       <li>
         <Link
-          className="font-semibold bg-transparent hover:text-orange-500"
+          className="font-semibold bg-transparent hover:text-orange-500 px-3 w-full h-10 "
           to="/"
         >
           Home
@@ -36,7 +37,7 @@ const Navbar = () => {
       </li>
       <li>
         <Link
-          className="font-semibold bg-transparent hover:text-orange-500"
+          className="font-semibold bg-transparent hover:text-orange-500 px-3 w-full h-10 "
           to="/blog"
         >
           Blog
@@ -46,7 +47,7 @@ const Navbar = () => {
         <li>
           <Link
             onClick={() => setShowDashboard(true)}
-            className="font-semibold bg-transparent hover:text-orange-500"
+            className="font-semibold bg-transparent hover:text-orange-500 px-3 w-full h-10 "
             to="/dashboard"
           >
             Dashboard
@@ -67,7 +68,7 @@ const Navbar = () => {
       ) : (
         <button
           onClick={handleLogOut}
-          className="font-semibold text-white bg-orange-500 px-3"
+          className="font-semibold text-white bg-orange-500 px-1 md:px-3 w-full md:w-auto h-10 mx-auto"
         >
           Sign Out
         </button>
@@ -100,7 +101,7 @@ const Navbar = () => {
             {open && (
               <ul
                 tabIndex={0}
-                className=" absolute top-16 right-0 menu menu-compact border dropdown-content bg-white w-52 block md:hidden"
+                className=" absolute top-16 right-0 menu menu-compact border dropdown-content bg-white w-52 flex-col justify-center gap-2 px-2 py-3 md:hidden"
               >
                 {menus}
               </ul>
@@ -109,7 +110,7 @@ const Navbar = () => {
         )}
         {!user && (
           <Link
-            className="font-semibold bg-transparent hover:text-orange-500 md:hidden"
+            className="font-semibold bg-transparent hover:text-orange-500 md:hidden px-3 w-40 h-10"
             to="/signin"
           >
             Sign In

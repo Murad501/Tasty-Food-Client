@@ -1,22 +1,25 @@
 import React, { useContext, useState } from "react";
 import { PhotoView } from "react-photo-view";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import ReviewCard from "../../Components/ReviewCard";
 import { foodProvider } from "../../Context/FoodContext";
 import { loadingProvider } from "../../Context/LoadingContext";
 import AddReview from "./AddReview";
 import { useQuery } from "react-query";
+import { authContext } from "../../Context/UserContext";
 
 const FoodDetails = () => {
   const [showReview, setShowReview] = useState(false);
   const { setIsLoading } = useContext(loadingProvider);
   const { id } = useParams();
   const { foods } = useContext(foodProvider);
+  const { user } = useContext(authContext);
+  const location = useLocation();
 
   const { data: reviews = [], refetch } = useQuery({
     queryKey: ["food-reviews", id],
     queryFn: () =>
-      fetch(`http://localhost:5000/food-reviews?id=${id}`).then((res) =>
+      fetch(`https://tasty-food-server.vercel.app/food-reviews?id=${id}`).then((res) =>
         res.json()
       ),
   });
@@ -90,7 +93,26 @@ const FoodDetails = () => {
           </div>
         </div>
       )}
-      {showReview ? <AddReview food={food} refetch={refetch}></AddReview> : ""}
+      {showReview && user ? (
+        <AddReview food={food} refetch={refetch}></AddReview>
+      ) : (
+        ""
+      )}
+      {!user && showReview ? (
+        <h3 className="flex justify-center items-center text-center my-10 gap-1 text-lg font-semibold">
+          Want to give a Review?{" "}
+          <Link
+            to="/signin"
+            state={{ from: location }}
+            replace
+            className="text-orange-500"
+          >
+            Login
+          </Link>
+        </h3>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

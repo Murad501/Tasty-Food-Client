@@ -6,11 +6,11 @@ const FoodContext = ({ children }) => {
   const {
     data: foods = [],
     isLoading,
-    refetch,
+    refetch
   } = useQuery({
     queryKey: ["foods"],
     queryFn: () =>
-      fetch("http://localhost:5000/foods").then((res) => res.json()),
+      fetch("https://tasty-food-server.vercel.app/foods").then((res) => res.json()),
   });
 
   const value = {
@@ -23,6 +23,5 @@ const FoodContext = ({ children }) => {
     <foodProvider.Provider value={value}>{children}</foodProvider.Provider>
   );
 };
-
 
 export default FoodContext;

@@ -1,23 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loadingProvider } from "../../Context/LoadingContext";
 import { authContext } from "../../Context/UserContext";
+import { useToken } from "../../Shared/getToken";
 
 const SignIn = () => {
   const { googleLogin, signIn } = useContext(authContext);
   const { setIsLoading } = useContext(loadingProvider);
+  const [userEmail, setUserEmail] = useState("");
+  const [token] = useToken(userEmail);
   let navigate = useNavigate();
   let location = useLocation();
-
   let from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const handleGoogleLogin = () => {
     googleLogin()
       .then((result) => {
+        const email = result.user.email;
+        setUserEmail(email);
         toast.success("user sign up successfully");
-        navigate(from, { replace: true });
       })
       .catch((err) => console.error(err));
   };
@@ -29,9 +36,10 @@ const SignIn = () => {
     const password = e.target.password.value;
     signIn(email, password)
       .then((result) => {
+        const email = result.user.email;
+        setUserEmail(email);
         setIsLoading(false);
         toast.success("user sign up successfully");
-        navigate(from, { replace: true });
       })
       .catch((err) => {
         setIsLoading(false);

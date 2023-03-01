@@ -3,7 +3,7 @@ import React from "react";
 import { FaRegHeart } from "react-icons/fa";
 
 const ReviewCard = ({ review }) => {
-  const { userName, reviewText, userPhoto, time } = review;
+  const { userName, reviewText, userPhoto, time, liked } = review;
   const dateObj = parseISO(time) 
   const formateDate = format(dateObj, 'MMMM dd, yyyy')
   return (
@@ -14,7 +14,7 @@ const ReviewCard = ({ review }) => {
         <h2 className="font-semibold text-lg">{userName}</h2>
         </div>
         <p className="text-md flex items-center justify-center gap-2">
-          <FaRegHeart></FaRegHeart> 23
+          <FaRegHeart></FaRegHeart> {liked}
         </p>
       </div>
       <p>

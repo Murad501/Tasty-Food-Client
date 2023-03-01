@@ -8,25 +8,33 @@ const MyReviews = () => {
   const { user } = useContext(authContext);
   const { setIsLoading } = useContext(loadingProvider);
 
-  const { data: reviews = [] } = useQuery({
+  const { data: reviews = [], isLoading  } = useQuery({
     queryKey: ["reviews", user?.email],
     queryFn: () =>
-      fetch(`http://localhost:5000/reviews?email=${user?.email}`).then((res) =>
-        res.json()
-      ),
+      fetch(`https://tasty-food-server.vercel.app/my-reviews?email=${user?.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      })
+      .then((res) => res.json())
   });
 
-  if (!reviews.length) {
+  if (isLoading) {
     return setIsLoading(true);
   } else {
     setIsLoading(false);
   }
+  // if(error){
+  //   setIsLoading(false)
+  // }
 
   return (
     <div>
-      {
-        reviews.map(review => <MyReviewCard key={review._id} review={review}></MyReviewCard>)
-      }
+      {reviews.length
+        ? reviews.map((review) => (
+            <MyReviewCard key={review._id} review={review}></MyReviewCard>
+          ))
+        : <h2 className="font-semibold text-center text-3xl">You haven't added any food yet.</h2>}
     </div>
   );
 };
