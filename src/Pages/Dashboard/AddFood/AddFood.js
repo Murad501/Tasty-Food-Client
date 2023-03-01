@@ -62,7 +62,6 @@ const AddFood = () => {
           })
           .then(res => res.json())
           .then(data => {
-            console.log(data)
           })
           setIsLoading(false)
           refetch()
@@ -91,11 +90,9 @@ const AddFood = () => {
     if (ingredientValue) {
       setIngredientArray([...ingredientArray, ingredientValue]);
       setIngredientValue("");
-      console.log(ingredientArray);
     } else {
       setPreparationArray([...preparationArray, preparationValue]);
       setPreparationValue("");
-      console.log(preparationArray);
     }
   };
 

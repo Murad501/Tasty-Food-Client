@@ -21,7 +21,6 @@ const AddReview = ({ food, refetch }) => {
       userEmail: user.email,
       userPhoto: user.photoURL
     };
-    console.log(review)
     fetch("https://tasty-food-server.vercel.app/reviews", {
       method: "POST",
       headers: {

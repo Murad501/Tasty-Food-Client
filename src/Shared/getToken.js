@@ -4,7 +4,6 @@ export const useToken = (email) => {
   const [token, setToken] = useState("");
   useEffect(() => {
     if (email) {
-        console.log(email)
       fetch(`https://tasty-food-server.vercel.app/jwt?email=${email}`)
         .then((res) => res.json())
         .then((data) => {

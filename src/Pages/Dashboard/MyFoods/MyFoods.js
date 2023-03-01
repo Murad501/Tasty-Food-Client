@@ -7,7 +7,6 @@ const MyFoods = () => {
   const { foods } = useContext(foodProvider);
   const { user } = useContext(authContext);
   const myFoods = foods.filter((food) => food.postedBy === user?.email);
-  console.log(myFoods);
 
 
   return (

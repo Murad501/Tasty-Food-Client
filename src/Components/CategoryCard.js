@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const CategoryCard = ({ category }) => {
-  console.log();
   return (
     <Link
       to={`/categories/${category._id}`}
