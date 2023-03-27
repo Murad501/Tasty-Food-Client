@@ -10,6 +10,7 @@ import DashboardContext from "./Context/DashboardContext";
 import CategoryContext from "./Context/CategoryContext";
 import LoadingContext from "./Context/LoadingContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import DarkContext from "./Context/DarkContext";
 
 const queryClient = new QueryClient();
 
@@ -18,24 +19,26 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <UserContext>
-        <PhotoProvider
-          speed={() => 800}
-          easing={(type) =>
-            type === 2
-              ? "cubic-bezier(0.36, 0, 0.66, -0.56)"
-              : "cubic-bezier(0.34, 1.56, 0.64, 1)"
-          }
-        >
-          <LoadingContext>
-            <FoodContext>
-              <CategoryContext>
-                <DashboardContext>
-                  <App />
-                </DashboardContext>
-              </CategoryContext>
-            </FoodContext>
-          </LoadingContext>
-        </PhotoProvider>
+        <DarkContext>
+          <PhotoProvider
+            speed={() => 800}
+            easing={(type) =>
+              type === 2
+                ? "cubic-bezier(0.36, 0, 0.66, -0.56)"
+                : "cubic-bezier(0.34, 1.56, 0.64, 1)"
+            }
+          >
+            <LoadingContext>
+              <FoodContext>
+                <CategoryContext>
+                  <DashboardContext>
+                    <App />
+                  </DashboardContext>
+                </CategoryContext>
+              </FoodContext>
+            </LoadingContext>
+          </PhotoProvider>
+        </DarkContext>
       </UserContext>
     </QueryClientProvider>
   </React.StrictMode>

@@ -7,8 +7,10 @@ import { loadingProvider } from "../../Context/LoadingContext";
 import AddReview from "./AddReview";
 import { useQuery } from "react-query";
 import { authContext } from "../../Context/UserContext";
+import { useDark } from "../../Context/DarkContext";
 
 const FoodDetails = () => {
+  const darkMode = useDark()
   const [showReview, setShowReview] = useState(false);
   const { setIsLoading } = useContext(loadingProvider);
   const { id } = useParams();
@@ -30,6 +32,8 @@ const FoodDetails = () => {
     setIsLoading(false);
   }
 
+  console.log(showReview);
+
   const food = foods.find((food) => food._id === id);
 
   const { picture, name, description, ingredients, preparation } = food;
@@ -47,7 +51,7 @@ const FoodDetails = () => {
         <button
           onClick={() => setShowReview(false)}
           className={`border-b-2 px-5 py-3 font-semibold text-lg ${
-            !showReview && "text-orange-500 border-orange-500"
+            !showReview ?"text-orange-500 border-orange-500" : " "
           }`}
         >
           Recipe
@@ -55,7 +59,7 @@ const FoodDetails = () => {
         <button
           onClick={() => setShowReview(true)}
           className={`border-b-2 px-5 py-3 font-semibold text-lg ${
-            showReview && "text-orange-500 border-orange-500"
+            showReview ?"text-orange-500 border-orange-500" : " "
           }`}
         >
           Reviews
@@ -74,7 +78,7 @@ const FoodDetails = () => {
           )}
         </div>
       ) : (
-        <div className="border m-2 p-2 max-w-6xl mx-auto">
+        <div className={`border ${darkMode && 'border-gray-800'} m-2 p-2 max-w-6xl mx-auto`}>
           <div className="col-span-1 md:col-span-2 lg:col-span-1 mb-5">
             <h2 className="font-semibold text-2xl mb-3">Ingredients</h2>
             {ingredients.map((text, idx) => (

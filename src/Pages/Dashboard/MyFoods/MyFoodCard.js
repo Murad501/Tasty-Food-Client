@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { FaComment, FaEdit, FaStar, FaTrash } from "react-icons/fa";
 import { PhotoView } from "react-photo-view";
 import { Link } from "react-router-dom";
+import { useDark } from "../../../Context/DarkContext";
 
 const MyFoodCard = ({ food }) => {
   const { picture, price, ratings, reviews, name, description, _id } = food;
+  const darkMode = useDark()
 
   const [overlayVisible, setOverlayVisible] = useState(false);
 
   return (
-    <div className="card card-compact md:w-full border rounded-sm mx-auto p-1">
+    <div className={`card card-compact md:w-full border ${darkMode && 'border-gray-700'} rounded-sm mx-auto p-1`}>
       {overlayVisible ? (
         <div
           onMouseEnter={() => setOverlayVisible(true)}

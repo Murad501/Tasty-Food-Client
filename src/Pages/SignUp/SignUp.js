@@ -4,25 +4,20 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaFacebookF, FaGoogle, FaRegTimesCircle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDark } from "../../Context/DarkContext";
 import { loadingProvider } from "../../Context/LoadingContext";
 import { authContext } from "../../Context/UserContext";
-import { useToken } from "../../Shared/getToken";
 
 const Signup = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { googleLogin, signUp } = useContext(authContext);
   const { setIsLoading } = useContext(loadingProvider);
-  const [userEmail, setUserEmail] = useState("");
-  const [token] = useToken(userEmail);
+  const darkMode = useDark();
   const imgbbApi = process.env.REACT_APP_imgbbApi;
   let navigate = useNavigate();
   let location = useLocation();
 
   let from = location.state?.from?.pathname || "/";
-
-  if (token) {
-    navigate(from, { replace: true });
-  }
 
   const {
     register,
@@ -33,8 +28,7 @@ const Signup = () => {
   const handleGoogleLogin = () => {
     googleLogin()
       .then((result) => {
-        const email = result.user.email;
-        setUserEmail(email);
+        navigate(from, { replace: true });
         toast.success("user sign up successfully");
       })
       .catch((err) => console.error(err));
@@ -61,8 +55,8 @@ const Signup = () => {
                 photoURL: imgUrl,
               })
                 .then(() => {
-                  setUserEmail(currentUser.email);
                   setIsLoading(false);
+                  navigate(from, { replace: true });
                   toast.success("user sign up successfully");
                 })
                 .catch((err) => {
@@ -99,7 +93,7 @@ const Signup = () => {
 
   return (
     <div>
-      <div className="max-w-2xl mx-auto min-h-screen px-2">
+      <div className="max-w-2xl mx-auto px-2 py-5 md:py-10">
         <div>
           <h2 className="text-3xl font-semibold mb-5">Get Started Now</h2>
           <p className="text-lg">
@@ -110,11 +104,17 @@ const Signup = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 my-10">
           <button
             onClick={handleGoogleLogin}
-            className="border-2 py-2 flex justify-center items-center gap-2 font-semibold hover:bg-orange-500 hover:border-orange-500 hover:text-white"
+            className={`border-2 py-2 flex justify-center items-center gap-2 font-semibold hover:bg-orange-500 hover:border-orange-500 hover:text-white ${
+              darkMode && "border-gray-700"
+            }`}
           >
             <FaGoogle></FaGoogle> Google
           </button>
-          <button className="border-2 py-2 flex justify-center items-center gap-2 font-semibold hover:bg-sky-500  hover:border-sky-500 hover:text-white">
+          <button
+            className={`border-2 py-2 flex justify-center items-center gap-2 font-semibold hover:bg-sky-500 hover:border-sky-500 hover:text-white ${
+              darkMode && "border-gray-700"
+            }`}
+          >
             <FaFacebookF></FaFacebookF> Facebook
           </button>
         </div>
@@ -122,17 +122,16 @@ const Signup = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label htmlFor="name" className="block font-medium mb-2">
                 Name
               </label>
               <input
                 type="text"
                 id="name"
                 {...register("name", { required: true })}
-                className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-blue-500`}
+                className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                  darkMode && "bg-black border-gray-700"
+                }`}
                 required
               />
               {errors.name && (
@@ -140,17 +139,16 @@ const Signup = () => {
               )}
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-medium mb-2"
-              >
+              <label htmlFor="email" className="block font-medium mb-2">
                 Email
               </label>
               <input
                 type="email"
                 id="email"
                 {...register("email", { required: true, pattern: emailRegex })}
-                className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:border-blue-500`}
+                className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                  darkMode && "bg-black border-gray-700"
+                }`}
                 required
               />
               {errors.email?.type === "required" && (
@@ -162,10 +160,7 @@ const Signup = () => {
             </div>
           </div>
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="password" className="block font-medium mb-2">
               Password
             </label>
             <input
@@ -175,7 +170,9 @@ const Signup = () => {
                 required: true,
                 pattern: passwordRegex,
               })}
-              className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:border-blue-500`}
+              className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                darkMode && "bg-black border-gray-700"
+              }`}
               required
             />
             {errors.password?.type === "required" && (
@@ -197,7 +194,11 @@ const Signup = () => {
                 className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                 onChange={handleImageChange}
               />
-              <div className="border-2 border-gray-300 p-2 rounded-sm w-full h-60 flex items-center justify-center">
+              <div
+                className={`border-2 border-gray-300 p-2 rounded-sm w-full h-60 flex items-center justify-center ${
+                  darkMode && "border-gray-700"
+                }`}
+              >
                 {selectedImage ? (
                   <div className="relative w-full h-full">
                     <img
@@ -227,7 +228,7 @@ const Signup = () => {
             </button>
           </div>
         </form>
-        <p className="mb-10">
+        <p>
           Already have an account?{" "}
           <Link className="text-orange-500" to="/signin">
             Sign In

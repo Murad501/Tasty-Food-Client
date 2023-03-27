@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { FaCheck, FaRegTimesCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { categoryProvider } from "../../../Context/CategoryContext";
+import { useDark } from "../../../Context/DarkContext";
 import { foodProvider } from "../../../Context/FoodContext";
 import { loadingProvider } from "../../../Context/LoadingContext";
 import { authContext } from "../../../Context/UserContext";
@@ -15,12 +16,13 @@ const AddFood = () => {
   const [preparationValue, setPreparationValue] = useState("");
   const [preparationArray, setPreparationArray] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const {setIsLoading} = useContext(loadingProvider)
-  const {categories} = useContext(categoryProvider)
-  const {user} = useContext(authContext)
+  const { setIsLoading } = useContext(loadingProvider);
+  const { categories } = useContext(categoryProvider);
+  const { user } = useContext(authContext);
+  const darkMode = useDark();
   const imgbbApi = process.env.REACT_APP_imgbbApi;
   const { refetch } = useContext(foodProvider);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -28,7 +30,7 @@ const AddFood = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setIsLoading(true)
+    setIsLoading(true);
     const image = data.profileImage[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -51,22 +53,25 @@ const AddFood = () => {
             description: data.description,
             registered: new Date(),
             ingredients: ingredientArray,
-            preparation: preparationArray
-          }
-          fetch('https://tasty-food-server.vercel.app/foods', {
-            method: 'POST', 
+            preparation: preparationArray,
+          };
+          fetch("https://tasty-food-server.vercel.app/foods", {
+            method: "POST",
             headers: {
-              'content-type':'application/json'
+              "content-type": "application/json",
             },
-            body: JSON.stringify(food)
+            body: JSON.stringify(food),
           })
-          .then(res => res.json())
-          .then(data => {
-          })
-          setIsLoading(false)
-          refetch()
-          navigate('/dashboard/my-foods')
-          toast.success("image upload successfully");
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.acknowledged) {
+                console.log(data)
+                setIsLoading(false);
+                refetch();
+                navigate("/dashboard/my-foods");
+                toast.success("food added successfully");
+              }
+            });
         }
       });
   };
@@ -97,33 +102,35 @@ const AddFood = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <h1 className="text-orange-500 font-bold text-2xl md:text-4xl my-10 text-center">
         Add a Food Recipe
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto">
-      <div className="mb-4 md:col-span-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              {...register("name", { required: true })}
-              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
-              required
-            />
-            {errors.name && (
-              <span className="text-red-500">Name is required</span>
-            )}
-          </div>
+        <div className="mb-4 md:col-span-4">
+          <label
+            htmlFor="name"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            {...register("name", { required: true })}
+            className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+              darkMode && "bg-black border-gray-700"
+            }`}
+            required
+          />
+          {errors.name && (
+            <span className="text-red-500">Name is required</span>
+          )}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="mb-4">
             <label
-              htmlFor="name"
+              htmlFor="category"
               className="block text-gray-700 font-medium mb-2"
             >
               Category
@@ -132,12 +139,16 @@ const AddFood = () => {
               type="text"
               id="category"
               {...register("category", { required: true })}
-              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
+              className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                darkMode && "bg-black border-gray-700"
+              }`}
               required
             >
-              {
-                categories.map((category, idx) => <option value={category._id} key={category._id}>{category.name}</option>)
-              }
+              {categories.map((category, idx) => (
+                <option value={category._id} key={category._id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             {errors.category && (
               <span className="text-red-500">Category is required</span>
@@ -154,7 +165,9 @@ const AddFood = () => {
               type="number"
               id="price"
               {...register("price", { required: true })}
-              className={`border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
+              className={`border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                darkMode && "bg-black border-gray-700"
+              }`}
               required
             />
             {errors.price && (
@@ -164,7 +177,7 @@ const AddFood = () => {
         </div>
         <div className="mb-4">
           <label
-            htmlFor="price"
+            htmlFor="description"
             className="block text-gray-700 font-medium mb-2"
           >
             Description
@@ -172,7 +185,9 @@ const AddFood = () => {
           <textarea
             id="description"
             {...register("description", { required: true })}
-            className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
+            className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+              darkMode && "bg-black border-gray-700"
+            }`}
             required
           />
           {errors.description && (
@@ -182,16 +197,19 @@ const AddFood = () => {
         {/* Ingredients */}
         <div className="mb-4">
           <label
-            htmlFor="price"
+            htmlFor="ingredient"
             className="block text-gray-700 font-medium mb-2"
           >
             Ingredients
           </label>
           <div className="relative">
             <textarea
+              id="ingredient"
               value={ingredientValue}
               onChange={(e) => setIngredientValue(e.target.value)}
-              className="textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500"
+              className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                darkMode && "bg-black border-gray-700"
+              }`}
             />
             {ingredientValue && (
               <button
@@ -213,18 +231,21 @@ const AddFood = () => {
         {/* Preparation */}
         <div className="mb-4">
           <label
-            htmlFor="price"
+            htmlFor="preparation"
             className="block text-gray-700 font-medium mb-2"
           >
             Preparation
           </label>
           <div className="relative">
             <textarea
+              id="preparation"
               value={preparationValue}
               onChange={(e) => {
                 setPreparationValue(e.target.value);
               }}
-              className="textarea textarea-bordered border-2 border-gray-300 p-2 w-full  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500"
+              className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full rounded-sm focus:outline-none focus:text-orange-500 ${
+                darkMode && "bg-black border-gray-700"
+              }`}
             />
             {preparationValue && (
               <button
@@ -252,7 +273,11 @@ const AddFood = () => {
               className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
               onChange={handleImageChange}
             />
-            <div className="border-2 border-gray-300 p-2 rounded-sm w-full h-60 flex items-center justify-center">
+            <div
+              className={`border-2 border-gray-300 p-2 rounded-sm w-full h-60 flex items-center justify-center ${
+                darkMode && "border-gray-700"
+              }`}
+            >
               {selectedImage ? (
                 <div className="relative w-full h-full">
                   <img

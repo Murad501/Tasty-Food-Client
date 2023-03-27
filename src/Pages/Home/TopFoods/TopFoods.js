@@ -8,11 +8,12 @@ const TopFoods = () => {
   const {foods} = useContext(foodProvider);
   const topFoods = foods.sort((a, b) => b.reviews - a.reviews).slice(0, 3);
 
+
   return (
     <div className="my-20">
       <div className="text-center mb-10">
         <h1 className="text-orange-500 font-bold text-2xl md:text-4xl mb-5">Top Foods</h1>
-        <p className="text-md font-medium text-gray-600">
+        <p className="text-md font-medium">
           Good food nourishes our bodies with essential nutrients and energy{" "}
           <br /> needed for optimal health and wellness.
         </p>
@@ -25,7 +26,7 @@ const TopFoods = () => {
       <div className="flex justify-center items-center">
         <Link
           to="/all-foods"
-          className="border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-3 px-4 w-40 text-center flex justify-center items-center gap-3"
+          className={`border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-3 px-4 w-40 text-center flex justify-center items-center gap-3`}
         >
           All Foods{" "}
           <span>

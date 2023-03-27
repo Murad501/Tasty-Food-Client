@@ -1,13 +1,23 @@
-import React from 'react';
-import { FaRegHeart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { FaRegHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useDark } from "../../../Context/DarkContext";
 
-const TestimonialCard = ({review}) => {
-    const{foodId, foodImage, foodName, reviewText, userPhoto, userName,liked} = review
-    return (
-        <Link
+const TestimonialCard = ({ review }) => {
+  const darkMode = useDark()
+  const {
+    foodId,
+    foodImage,
+    foodName,
+    reviewText,
+    userPhoto,
+    userName,
+    liked,
+  } = review;
+  return (
+    <Link
       to={`/foods/${foodId}`}
-      className="border mx-auto px-2 py-4 md:p-5 rounded-sm hover:shadow-md mb-10 grid grid-cols-1 lg:grid-cols-4 items-center gap-5"
+      className={`border ${darkMode && 'border-gray-800'} mx-auto px-2 py-4 md:p-5 rounded-sm hover:shadow-md mb-10 grid grid-cols-1 lg:grid-cols-4 items-center gap-5`}
     >
       <img
         src={foodImage}
@@ -28,13 +38,13 @@ const TestimonialCard = ({review}) => {
           <span className="font-semibold text-3xl">&ldquo;</span>
           {reviewText}
         </p>
-        <div className='flex justify-end items-center gap-2 mt-5'>
-        <img src={userPhoto} className='w-10 h-10 rounded-full' alt="" />
-        <p className=""> - {userName}</p>
+        <div className="flex justify-end items-center gap-2 mt-5">
+          <img src={userPhoto} className="w-10 h-10 rounded-full" alt="" />
+          <p className=""> - {userName}</p>
         </div>
       </div>
     </Link>
-    );
+  );
 };
 
 export default TestimonialCard;

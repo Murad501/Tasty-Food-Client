@@ -1,16 +1,18 @@
 import React from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { Link} from "react-router-dom";
+import { useDark } from "../../../Context/DarkContext";
 
 const MyReviewCard = ({ review }) => {
   const { foodName, foodImage, reviewText, foodId } = review;
+  const darkMode = useDark()
 
 
 
   return (
     <Link
       to={`/foods/${foodId}`}
-      className="border mx-auto px-2 py-4 md:p-5 rounded-sm hover:shadow-md mb-10 grid grid-cols-1 lg:grid-cols-4 items-center gap-5"
+      className={`border  mx-auto px-2 py-4 md:p-5 rounded-sm hover:shadow-md mb-10 grid grid-cols-1 lg:grid-cols-4 items-center gap-5 ${darkMode && 'border-gray-700'}`}
     >
       <img
         src={foodImage}

@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import AnimationButton from "../../Components/AnimationButton";
+import { useDark } from "../../Context/DarkContext";
 import { authContext } from "../../Context/UserContext";
 
 const AddReview = ({ food, refetch }) => {
   const { user } = useContext(authContext);
   const [isPosting, setIsPosting] = useState(false);
   const [reviewText, setReviewText] = useState("");
-
+  const darkMode = useDark()
 
   const handleSubmitReview = (event) => {
     event.preventDefault();
@@ -19,7 +20,7 @@ const AddReview = ({ food, refetch }) => {
       foodImage: food.picture,
       userName: user.displayName,
       userEmail: user.email,
-      userPhoto: user.photoURL
+      userPhoto: user.photoURL,
     };
     fetch("https://tasty-food-server.vercel.app/reviews", {
       method: "POST",
@@ -34,7 +35,7 @@ const AddReview = ({ food, refetch }) => {
           setIsPosting(false);
           toast.success("Review added successfully");
           event.target.reset();
-          refetch()
+          refetch();
         }
       });
   };
@@ -53,7 +54,11 @@ const AddReview = ({ food, refetch }) => {
             id="review_text"
             name="review_text"
             placeholder="type here..."
-            className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full h-36  rounded-sm focus:outline-none focus:border-orange-500 focus:text-orange-500`}
+            className={`textarea textarea-bordered border-2 border-gray-300 p-2 w-full h-36  rounded-sm focus:outline-none ${
+              darkMode
+                ? "bg-black border-gray-700"
+                : "focus:border-orange-500"
+            }  focus:text-orange-500`}
             required
           />
         </div>
