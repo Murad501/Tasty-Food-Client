@@ -11,7 +11,6 @@ import { useDark } from "./Context/DarkContext";
 function App() {
   const {isLoading} = useContext(loadingProvider)
   const darkMode = useDark()
-  console.log(darkMode)
   return (
     <div className={`${darkMode ? 'bg-black text-gray-400' : 'bg-white'} min-h-screen`}>
       <div className="container mx-auto">
